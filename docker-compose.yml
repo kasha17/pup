@@ -17,13 +17,26 @@ services:
         build:
           context: backend
         entrypoint: ["/code/entrypoint.sh"]
-        command: ./manage.py runserver
-        #volumes:
-        #  - .:/code
+        command: >
+            sh -c "
+            python ./manage.py migrate &&
+            python ./manage.py loaddata fixtures/initial_sites.json &&
+            python ./manage.py runserver 0.0.0.0:8000"
+#        volumes:
+#          - .:/code
         ports:
           - "8989:8000"
         depends_on:
           - db
-          
 
-  
+
+
+#    cron:
+#        build: .
+#        command: >
+#            sh -c "
+#            (echo 'SHELL=/bin/sh'; echo '0 0 * * * python ./manage.py openphish' >> /proc/1/fd/1 2>&1') | crontab - && crond -f -l 2"
+#        volumes:
+#            - .:/code
+#        depends_on:
+#            - db

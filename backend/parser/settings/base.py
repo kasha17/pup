@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'parser'
+    'parser',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -78,6 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'USER': 'user',
+        'PASSWORD': 'password',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -122,3 +128,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_BEAT_SCHEDULE = {
+    'parse-sites-every-day': {
+        'task': 'parser.tasks.parse_site_task',
+        'schedule': crontab('0', '0'),  # ???????????? Execute daily at midnight
+        # https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html
+    }
+}
+
+EMAIL_BACKEND = 'django.core.mail.backend.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'admin@example.com'
+EMAIL_HOST_PASSWORD = 'admin'
+EMAIL_USE_TLS = True

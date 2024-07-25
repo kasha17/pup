@@ -1,18 +1,23 @@
-# from django.db import models
-from . import db
+from django.db import models
+
 # Create your models here.
 
 
-class MainSites(db.Model):
-    id = db.Column(db.Integer, primary_keys=True)
-    url = db.Column(db.String(2048), unique=True, nullabel=False)
+class MainSites(models.Model):
+    url = models.URLField(unique=True)
+    SITE_TYPES = [
+        ('txt', 'TXT'),
+        ('php', 'PHP'),
+        ('xml', 'XML'),
+        ('ch', 'CH'),
+        ('csv', 'CSV')
+    ]
+    type = models.CharField(max_length=3, choices=SITE_TYPES, default='txt')
 
 
-class MalwareSites(db.Model):
-    id = db.Column(db.Integer, primary_keys=True)
-    url = db.Column(db.String(2048), unique=True, nullabel=False)
+class MalwareSites(models.Model):
+    url = models.URLField(unique=True)
 
 
-class PhishingSites(db.Model):
-    id = db.Column(db.Integer, primary_keys=True)
-    url = db.Column(db.String(2048), unique=True, nullabel=False)
+class PhishingSites(models.Model):
+    url = models.URLField(unique=True)

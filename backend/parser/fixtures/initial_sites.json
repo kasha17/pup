@@ -1,0 +1,10 @@
+[
+  {
+    "model": "parser/initialsite",
+    "pk":1,
+    "fields": {
+        "url": "http://openphish.com/feed.txt",
+        "type": "txt"
+    }
+  }
+]
