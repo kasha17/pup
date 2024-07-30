@@ -3,7 +3,13 @@ from django.db import models
 # Create your models here.
 
 
-class MainSites(models.Model):
+class Base(models.Model):
+    class Meta:
+        abstract = True
+        app_label = "parser"
+
+
+class MainSites(Base):
     url = models.URLField(unique=True)
     SITE_TYPES = [
         ('txt', 'TXT'),
@@ -15,9 +21,9 @@ class MainSites(models.Model):
     type = models.CharField(max_length=3, choices=SITE_TYPES, default='txt')
 
 
-class MalwareSites(models.Model):
+class MalwareSites(Base):
     url = models.URLField(unique=True)
 
 
-class PhishingSites(models.Model):
+class PhishingSites(Base):
     url = models.URLField(unique=True)
