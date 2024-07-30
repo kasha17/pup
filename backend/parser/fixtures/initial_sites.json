@@ -1,0 +1,26 @@
+[
+  {
+    "model": "parser.mainsites",
+    "pk": 1,
+    "fields": {
+        "url": "http://openphish.com/feed.txt",
+        "type": "txt"
+    }
+  },
+  {
+    "model": "parser.mainsites",
+    "pk": 1,
+    "fields": {
+      "url": "https://www.cymru.com/certru/infected_$cur_data.txt",
+      "type": "txt"
+    }
+  },
+    {
+    "model": "parser.mainsites",
+    "pk": 1,
+    "fields": {
+      "url": "http://www.millersmiles.co.uk/millersmiles.xml",
+      "type": "xml"
+    }
+  }
+]
